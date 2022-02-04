@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+<script type="text/javascript" src="jquery-1.7.1.js"></script>
+<script type="text/javascript" src="jquery-ui.js"></script>
+<script type="text/javascript" src="jquery.imageloader.js"></script>
+<script type="text/javascript" src="jquery.imageloader.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+    var fileNames = ["Blocked/Inst1.png", "Blocked/Inst2.png", "Blocked/Inst3.png", "Blocked/Inst4.png"];
+	  	var loadedObjs = $({}).imageLoader({
+              images: fileNames,
+              async: true,
+  			allcomplete: function(e, ui) {
+              }
+          });
+          
+    var imgs = loadedObjs.imageLoader('getData');
+    var slideNum=0;
+	var maxNum=6;
+	var containerHandle = document.getElementById('Container');
+    $("#ReturnButton").hide();
+	$("#NextButton").hide();
+	$("#PrevButton").hide();
+	$("#Instructions").hide();
+
+    $("#ReturnButton").click(function(){
+    	opener.updateMainMenu(1);
+    	JavaScript:window.close();
+	});
+	
+	$("#NextButton").click(function(){
+		$("#ReturnButton").hide();
+	    slideNum=slideNum+1;
+		moveShow(slideNum);
+	});
+	
+	$("#StartButton").click(function(){
+		$("#ReturnButton").hide();
+		$("#StartButton").hide()
+		$("#NextButton").show()
+		$("#PrevButton").show()
+	    moveShow(slideNum);
+	});
+	
+	$("#PrevButton").click(function(){
+		$("#ReturnButton").hide();
+	    slideNum=slideNum-1;
+		moveShow(slideNum);
+	});
+	
+	function moveShow(slideNum){
+	 
+	//Draw the slide here!!
+	if (slideNum==0) {
+	   $("#Instructions").text('We are interested in how people make judgments about numbers. In this experiment, you will be asked to judge whether numbers are LESS THAN or GREATER THAN 5 or whether they are ODD or EVEN.');
+	   $("#Instructions").show()
+	   containerHandle.innerHTML = "";     
+	} else if (slideNum==1) {
+	   $("#Instructions").text('On each trial, you will see a colored DIGIT appear in the center of the screen.'); 
+	} else if (slideNum==2) {
+	   $("#Instructions").text('If the digit is RED, do the MAGNITUDE task. Press the z key if the digit is LESS THAN 5 or the m key if the digit is GREATER THAN 5. The digit will never be 5.');
+	   $("#Container").html(imgs[0].img);
+	} else if (slideNum==3) {
+	   $("#Instructions").text('If the digit is BLUE, do the PARITY task. Press the z key if the digit is ODD or the m key if the digit is EVEN.');   
+	   $("#Container").html(imgs[1].img); 
+	} else if (slideNum==4) {
+	   $("#Instructions").text('Respond to each stimulus as quickly as possible while still being accurate.  You will have until the disappearance of the digit or letter to make your response.  Always press the z key with your LEFT index finger and the m key with your RIGHT index finger.');   
+	   containerHandle.innerHTML = "";
+	   $("#Container").html(imgs[2].img); 
+	} else if (slideNum==5) {
+	   $("#Instructions").text('Always look at the +. It is very important to stay focused during the experiment.');
+	   containerHandle.innerHTML = "";
+	} else if (slideNum==6) {
+	   $("#Instructions").text('Instructions Complete!');
+	}
+	if (slideNum==0) {
+	   $("#PrevButton").hide();
+	   $("#NextButton").show(); 
+	} else if (slideNum < maxNum) {
+	   $("#PrevButton").show();  
+	   $("#NextButton").show(); 
+	} else {
+	   $("#NextButton").hide();
+	   $("#ReturnButton").show();    
+	} 
+	}
+});
+</script>
+
+</head>
+<body>
+
+<h2 style="font-family:arial;">Instructions</h2>
+<p style="font-family:arial;font-weight:bold;color:blue;">Please read these instructions carefully before you begin the experiment.</p>
+
+  <table id="wrapper">
+      <tr>
+  	    <td>
+  			<p id="indicator" style="font-family:arial;color:black;font-size:20px;z-index:-1;"></p>
+  			<p id="Instructions" style="font-family:arial;color:black;font-size:20px;z-index:-1;">Text</p>
+  			<!--<button id="NoFeedbackButton" style="font-family:arial;color:black;font-size:24px;">I understand.</button>-->
+  		</td>
+  	</tr>
+  </table>
+  <div id="Container" style="z-index:-1;">
+  </div>
+&nbsp;
+<p></p>
+<button id="PrevButton" style="font-family:arial;color:black;font-size:20px;z-index:99;">Previous</button>
+<button id="ReturnButton" style="font-family:arial;color:black;font-size:20px;z-index:99;">Click to exit instructions and return to menu</button>
+<button id="NextButton" style="font-family:arial;color:black;font-size:20px;z-index:99;">Next</button>
+<button id="StartButton" style="font-family:arial;color:black;font-size:20px;z-index:99;">Next</button>
+</body>
+</html>
